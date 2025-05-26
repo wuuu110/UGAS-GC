@@ -1,0 +1,90 @@
+out_dir: results
+metric_best: accuracy-SBM
+wandb:
+  use: True
+  project: PATTERN
+dataset:
+  format: PyG-GNNBenchmarkDataset
+  name: PATTERN
+  task: graph
+  task_type: classification
+  transductive: False
+  split_mode: standard
+  node_encoder: True
+  node_encoder_name: LapPE
+  node_encoder_bn: False
+  edge_encoder: True
+  edge_encoder_name: DummyEdge
+  edge_encoder_bn: False
+posenc_LapPE:
+  enable: True
+  eigen:
+    laplacian_norm: none
+    eigvec_norm: L2
+    max_freqs: 16
+  model: DeepSet
+  dim_pe: 16
+  layers: 2
+  n_heads: 4  # Only used when `posenc.model: Transformer`
+  raw_norm_type: none
+train:
+  mode: custom
+  batch_size: 32
+  eval_period: 1
+  ckpt_period: 100
+model:
+  type: SupernetModel
+  loss_fun: weighted_cross_entropy
+  edge_decoding: dot
+gt:  # Hyperparameters optimized for up to ~500k budget.
+  layer_type: CustomGatedGCN+Transformer
+  layers: 6
+  n_heads: 4
+  dim_hidden: 64  # `gt.dim_hidden` must match `gnn.dim_inner`
+  dropout: 0.0
+  attn_dropout: 0.5
+  layer_norm: False
+  batch_norm: True
+gnn:
+  head: inductive_node
+  layers_pre_mp: 0
+  layers_post_mp: 3
+  dim_inner: 64  # `gt.dim_hidden` must match `gnn.dim_inner`
+  batchnorm: True
+  act: relu
+  dropout: 0.0
+  agg: mean
+  normalize_adj: False
+optim:
+  clip_grad_norm: True
+  optimizer: adamW
+  weight_decay: 1e-5
+  base_lr: 0.0005
+  max_epoch: 100
+  scheduler: cosine_with_warmup
+  num_warmup_epochs: 5
+nas:
+  test: False
+  experiment_name: pattern_os_100_0_2_100_supernet_3
+  enable: True # if False, just train the supernet model
+  supernet_layer_types: [['GCN', 'GAT', 'GINE', 'GENConv'], ['Transformer', 'Performer']]
+  layer_num: 5
+  parallel_num: 2
+  encoder:
+    enable: False # if False, won't search for encoder
+    fixed_types: ['TypeDictNode']
+    variable_types: ['LapPE', 'RWSE']
+  algorithm: one_shot
+  any_shot:
+    supernet_max_epoch: 100
+    sub_supernet_max_epoch: 0
+    retrain_search_max_epoch: 2
+    retrain_best_max_epoch: 100
+    retrain_top_k: 5
+  search_algorithm: GA
+  ga:
+    max_generations: 5
+    population_size: 30
+    mutation_rate: 0.1
+    crossover_rate: 0.6
+accelerator: cuda:1
