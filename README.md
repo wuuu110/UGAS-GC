@@ -1,5 +1,17 @@
-## Paper
-The source code of "Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution".
+## Introduction
+The source code for the paper "[Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution]()", accepted by ACM SIGKDD 2025.
+
+
+# Citation
+If you find our paper and code useful, please cite our paper  🚀🚀🚀:
+```
+@inproceedings{Hercules,
+title = {Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution},
+author = {Song, Wenhao and Wu, Xuan and Yang, Bo and Zhou, You and Xiao, Yubin and Liang, Yanchun and Ge, Hongwei and Lee, Heow Pueh and  Wu, Chunguo},
+booktitle={Proceedings of the ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
+year = {2025},
+}
+```
 
 ## Setup
 ```bash
