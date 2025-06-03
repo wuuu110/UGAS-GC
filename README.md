@@ -1,5 +1,5 @@
 ## Introduction
-The source code for the paper "[Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution]()", accepted by ACM SIGKDD 2025.
+The source code for the paper "[Towards Efficient Few-shot Graph Neural Architecture Search via Partitioning Gradient Contribution](https://arxiv.org/pdf/2506.01231)", accepted by ACM SIGKDD 2025.
 
 
 # Citation
